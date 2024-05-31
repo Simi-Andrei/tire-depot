@@ -1,0 +1,13 @@
+import { Skeleton } from "@/components/ui/skeleton";
+
+const LoadingTires = () => {
+  return (
+    <div className="h-full flex flex-col">
+      <Skeleton className="w-full h-10 rounded my-2" />
+      <Skeleton className="w-full h-10 rounded my-2 flex-1" />
+      <Skeleton className="w-full h-10 rounded my-2" />
+    </div>
+  );
+};
+
+export default LoadingTires;

@@ -1,0 +1,90 @@
+import TiresList from "@/components/tiresList/TiresList";
+import PrimaryButton from "@/components/primaryButton/PrimaryButton";
+import PageTitle from "@/components/pageTitle/PageTitle";
+import connectDB from "@/lib/database";
+import Tire from "@/models/tire";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+const getTires = async (limit, page) => {
+  try {
+    await connectDB();
+
+    const tires = await Tire.find({})
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const tiresCount = await Tire.countDocuments();
+
+    return { tires, tiresCount };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const TiresPage = async ({ searchParams }) => {
+  let page = parseInt(searchParams.page, 10);
+
+  page = !page || page < 1 ? 1 : page;
+
+  const limit = 16;
+
+  const { tires, tiresCount } = await getTires(limit, page);
+
+  const totalPages = Math.ceil(tiresCount / limit);
+
+  const prevPage = page - 1 > 0 ? page - 1 : 1;
+  const nextPage = page + 1;
+
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex items-end justify-between pb-1 my-1">
+        <PageTitle title={`Tires (${tiresCount} items)`} />
+        <PrimaryButton
+          role="link"
+          label="Add tire"
+          href={{ pathname: "/tires/add", query: { lastPage: totalPages } }}
+        />
+      </div>
+      <TiresList
+        tires={JSON.stringify(tires)}
+        page={page}
+        limit={limit}
+        totalPages={totalPages}
+      />
+      <div className="p-2 mt-auto text-center">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                className={page == 1 ? "pointer-events-none opacity-50" : ""}
+                href={`?page=${prevPage}`}
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink className="font-semibold" href="#">
+                {page}/{totalPages}
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                className={
+                  page === totalPages ? "pointer-events-none opacity-50" : ""
+                }
+                href={`?page=${nextPage}`}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
+    </div>
+  );
+};
+
+export default TiresPage;
