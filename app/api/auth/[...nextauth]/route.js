@@ -41,6 +41,18 @@ const authOptions = {
   pages: {
     signIn: "/",
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.isAdmin = user.isAdmin;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.isAdmin = token.isAdmin;
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

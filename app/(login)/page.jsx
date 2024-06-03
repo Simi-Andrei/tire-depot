@@ -23,7 +23,8 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import PrimaryButton from "@/components/primaryButton/PrimaryButton";
+import { CgSpinner } from "react-icons/cg";
+
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 
@@ -139,9 +140,15 @@ const LoginPage = () => {
               {error && <p className="text-red-500">{error}</p>}
             </CardContent>
             <CardFooter className="justify-center">
-              <Button disabled={isSubmitting} type="submit">
-                Login
-              </Button>
+              {isSubmitting ? (
+                <Button className="w-24" disabled={isSubmitting} type="submit">
+                  <CgSpinner className="animate-spin text-xl" />
+                </Button>
+              ) : (
+                <Button className="w-24" disabled={isSubmitting} type="submit">
+                  Login
+                </Button>
+              )}
             </CardFooter>
           </Card>
         </form>

@@ -30,6 +30,7 @@ export const POST = async (req, res) => {
       name: values.name,
       email: values.email,
       password: hashedPassword,
+      isAdmin: values.isAdmin,
     });
 
     await newUser.save();

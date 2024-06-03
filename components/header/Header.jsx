@@ -118,17 +118,19 @@ const Header = () => {
               Entries
             </Link>
           </li>
-          <li className="mx-2">
-            <Link
-              className={`${
-                pathname === "/users" &&
-                "bg-gradient-to-b from-slate-600 via-slate-800 to-slate-900"
-              } inline-block py-1 px-4 rounded`}
-              href="/users"
-            >
-              Users
-            </Link>
-          </li>
+          {session?.user?.isAdmin && (
+            <li className="mx-2">
+              <Link
+                className={`${
+                  pathname === "/users" &&
+                  "bg-gradient-to-b from-slate-600 via-slate-800 to-slate-900"
+                } inline-block py-1 px-4 rounded`}
+                href="/users"
+              >
+                Users
+              </Link>
+            </li>
+          )}
           <li className="mx-2">
             <DropdownMenu>
               <DropdownMenuTrigger
@@ -139,7 +141,10 @@ const Header = () => {
               >
                 Settings
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="min-w-44">
+              <DropdownMenuContent
+                align="end"
+                className="min-w-44 translate-y-2"
+              >
                 <DropdownMenuItem className="justify-end" asChild>
                   <Link href="/settings">Settings</Link>
                 </DropdownMenuItem>
@@ -158,7 +163,11 @@ const Header = () => {
                 {session?.user && session.user.name}
                 <Avatar className="h-6 w-6 mx-2 border-2">
                   <AvatarImage
-                    src="/avatars/adminAvatar.jpg"
+                    src={`${
+                      session.user.isAdmin
+                        ? "/avatars/adminAvatar.jpg"
+                        : "/avatars/userAvatar.jpg"
+                    }`}
                     alt="User avatar"
                     className="border-none"
                   />
@@ -183,7 +192,7 @@ const Header = () => {
                   </button>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="border-t justify-end text-xs mt-1 pointer-events-none">
-                  Logged in as Admin
+                  Logged in as {session.user.isAdmin ? "Admin" : "User"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -200,7 +209,7 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="min-w-80 translate-y-2"
+                className="min-w-80 translate-y-2 px-2"
               >
                 <p className="border-b border-accent mb-1">Notifications</p>
                 {!loadingNotifications &&

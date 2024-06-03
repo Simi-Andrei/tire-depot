@@ -80,10 +80,10 @@ const EditTireForm = ({ tire }) => {
             diameter !== "" && (
               <CardHeader className="pt-0">
                 <CardDescription>
-                  <p className="flex items-center">
+                  <span className="flex items-center">
                     <AiOutlineInfoCircle className="mr-1 text-lg" />
                     Unsaved changes
-                  </p>
+                  </span>
                 </CardDescription>
               </CardHeader>
             )}
@@ -105,7 +105,7 @@ const EditTireForm = ({ tire }) => {
             />
             <FormField
               control={form.control}
-              name="height"
+              name="width"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Width</FormLabel>
@@ -155,7 +155,7 @@ const EditTireForm = ({ tire }) => {
           width !== "" &&
           height !== "" &&
           diameter !== "" && (
-            <div className="py-2 w-1/2 flex justify-end">
+            <div className="py-2 w-full md:w-1/2 md:max-w-md flex justify-end">
               <Button type="submit">Save</Button>
             </div>
           )}
