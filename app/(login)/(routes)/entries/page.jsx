@@ -11,8 +11,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import PaginationComponent from "@/components/paginationComponent/PaginationComponent";
 
-const getEstimates = async (limit, page) => {
+const getEntries = async (limit, page) => {
   try {
     await connectDB();
 
@@ -33,9 +34,9 @@ const EntriesPage = async ({ searchParams }) => {
 
   page = !page || page < 1 ? 1 : page;
 
-  const limit = 16;
+  const limit = 18;
 
-  const { entries, entriesCount } = await getEstimates(limit, page);
+  const { entries, entriesCount } = await getEntries(limit, page);
 
   const totalPages = Math.ceil(entriesCount / limit);
 
@@ -62,29 +63,12 @@ const EntriesPage = async ({ searchParams }) => {
         totalPages={totalPages}
       />
       <div className="p-2 mt-auto text-center">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                className={page == 1 ? "pointer-events-none opacity-50" : ""}
-                href={`?page=${prevPage}`}
-              />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink className="font-semibold" href="#">
-                {page}/{totalPages}
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext
-                className={
-                  page === totalPages ? "pointer-events-none opacity-50" : ""
-                }
-                href={`?page=${nextPage}`}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <PaginationComponent
+          page={page}
+          prevPage={prevPage}
+          nextPage={nextPage}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );

@@ -42,6 +42,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import PrimaryButton from "@/components/primaryButton/PrimaryButton";
 import SecondaryButton from "@/components/secondaryButton/SecondaryButton";
 import { FaTimes } from "react-icons/fa";
+import { Card, CardContent } from "@/components/ui/card";
 
 const formSchema = z.object({
   customerFirstname: z.string().nonempty("Please enter first name"),
@@ -74,7 +75,6 @@ const CreateEntryForm = () => {
   const [estimates, setEstimates] = useState([]);
   const [storedTires, setStoredTires] = useState([]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
 
   useEffect(() => {
     const getTires = async () => {
@@ -155,297 +155,307 @@ const CreateEntryForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <div className="mt-2">
-          <FormField
-            control={form.control}
-            name="correspEstimate"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                {form.formState.errors.correspEstimate ? (
-                  <FormMessage />
-                ) : (
-                  <FormLabel className="mb-1 mt-0.5 w-96">
-                    Corresponding estimate for the entry
-                  </FormLabel>
-                )}
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className={cn(
-                          "w-96 justify-between",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {form.watch("correspEstimate")
-                          ? estimates.find(
-                              (estimate) =>
-                                estimate.value === form.watch("correspEstimate")
-                            )?.label
-                          : "Select estimate"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-96 p-0">
-                    <Command>
-                      <CommandInput placeholder="Search estimate..." />
-                      <CommandEmpty>No estimate found.</CommandEmpty>
-                      <CommandGroup>
-                        <CommandList>
-                          {estimates.map((estimate) => (
-                            <CommandItem
-                              key={estimate.value}
-                              value={estimate.value}
-                              onSelect={(currentValue) => {
-                                const selectedValue =
-                                  currentValue === form.watch("correspEstimate")
-                                    ? ""
-                                    : currentValue;
-                                form.setValue(
-                                  "correspEstimate",
-                                  selectedValue,
-                                  {
-                                    shouldValidate: true,
-                                  }
-                                );
-                                setOpen(false);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  estimate.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {estimate.label}
-                            </CommandItem>
-                          ))}
-                        </CommandList>
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="mt-2">
-          <FormField
-            control={form.control}
-            name="customerFirstname"
-            render={({ field }) => (
-              <FormItem>
-                {form.formState.errors.customerFirstname ? (
-                  <FormMessage />
-                ) : (
-                  <FormLabel className="mb-1 mt-0.5">
-                    Customer first name
-                  </FormLabel>
-                )}
-                <FormControl>
-                  <Input placeholder="First name" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="mt-2">
-          <FormField
-            control={form.control}
-            name="customerLastname"
-            render={({ field }) => (
-              <FormItem>
-                {form.formState.errors.customerLastname ? (
-                  <FormMessage />
-                ) : (
-                  <FormLabel className="mb-1 mt-0.5">
-                    Customer last name
-                  </FormLabel>
-                )}
-                <FormControl>
-                  <Input placeholder="Last name" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex items-end mt-2 gap-2">
-          <FormField
-            control={form.control}
-            name="storedTire"
-            render={({ field }) => {
-              return (
-                <FormItem className="w-full">
-                  <div className="flex items-center justify-between">
-                    <FormLabel className="mb-1">Tires</FormLabel>
-                  </div>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="focus:ring-gray-300 focus:ring-offset-0">
-                        <SelectValue placeholder="Select tire" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {tires.map((tire, index) => (
-                        <SelectItem key={index} value={tire._id}>
-                          {tire.brand} {tire.width}/{tire.height} - R
-                          {tire.diameter}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-          <Button
-            variant="outline"
-            type="button"
-            onClick={() => handleAddTire(form.getValues("storedTire"))}
-            className={`h-10 px-10 mb-2 ${
-              storedTires.length >= 4 ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            disabled={storedTires.length >= 4}
-          >
-            Add
-          </Button>
-        </div>
-        <div className="mt-2">
-          <h2>Selected Tires:</h2>
-          {storedTires.length === 0 ? (
-            <div className="border border-input p-2 rounded-md">
-              <p className="italic">
-                No tires added to the entry yet. Add tires from the select
-                above.
-              </p>
-            </div>
-          ) : (
-            <div className="border border-input p-2 rounded-md">
-              {storedTires.map((tireId, index) => {
-                const storedTire = tires.find((tire) => tire._id === tireId);
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center mb-2 [&:not(:first-child)]:border-t pt-2"
-                  >
-                    <span>{index + 1}.&nbsp;</span>
-                    <p className="mr-4 font-semibold">
-                      {storedTire.brand} - {storedTire.width}/
-                      {storedTire.height} R{storedTire.diameter}
-                    </p>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => handleDuplicateTire(index)}
-                      className={` h-8 text-blue-400 ${
-                        storedTires.length >= 4
-                          ? "opacity-50 cursor-not-allowed"
-                          : ""
-                      }`}
-                      disabled={storedTires.length >= 4}
-                    >
-                      Duplicate
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => handleRemoveTire(index)}
-                      className="ml-4 text-red-400 h-8 hover:text-red-400"
-                    >
-                      Remove
-                      <FaTimes className="ml-2 mt-0.5" />
-                    </Button>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-        <div className="mt-2">
-          <FormField
-            control={form.control}
-            name="periodInMonths"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="flex items-center justify-between">
-                    {form.formState.errors.periodInMonths ? (
+        <Card className="pt-6">
+          <CardContent>
+            <div className="mt-2">
+              <FormField
+                control={form.control}
+                name="correspEstimate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    {form.formState.errors.correspEstimate ? (
                       <FormMessage />
                     ) : (
-                      <FormLabel className="mb-1 mt-0.5">Period</FormLabel>
+                      <FormLabel className="mb-1 mt-0.5 w-96">
+                        Corresponding estimate for the entry
+                      </FormLabel>
                     )}
-                  </div>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="focus:ring-gray-300 focus:ring-offset-0">
-                        <SelectValue placeholder="Select period" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="3">3 months</SelectItem>
-                      <SelectItem value="6">6 months</SelectItem>
-                      <SelectItem value="12">12 months</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              );
-            }}
-          />
-        </div>
-        <div className="mt-2 flex items-center">
-          <Controller
-            name="rims"
-            control={form.control}
-            render={({ field }) => (
-              <Checkbox
-                id="rims"
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-            )}
-          />
-          <label className="ml-2" htmlFor="rims">
-            Customer leaves rims
-          </label>
-        </div>
-        <div className="mt-2">
-          <FormField
-            control={form.control}
-            name="pricePerMonth"
-            render={({ field }) => (
-              <FormItem>
-                {form.formState.errors.pricePerMonth ? (
-                  <FormMessage />
-                ) : (
-                  <FormLabel className="mb-1 mt-0.5">Price per month</FormLabel>
+                    <Popover open={open} onOpenChange={setOpen}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open}
+                            className={cn(
+                              "w-96 justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {form.watch("correspEstimate")
+                              ? estimates.find(
+                                  (estimate) =>
+                                    estimate.value ===
+                                    form.watch("correspEstimate")
+                                )?.label
+                              : "Select estimate"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-96 p-0">
+                        <Command>
+                          <CommandInput placeholder="Search estimate..." />
+                          <CommandEmpty>No estimate found.</CommandEmpty>
+                          <CommandGroup>
+                            <CommandList>
+                              {estimates.map((estimate) => (
+                                <CommandItem
+                                  key={estimate.value}
+                                  value={estimate.value}
+                                  onSelect={(currentValue) => {
+                                    const selectedValue =
+                                      currentValue ===
+                                      form.watch("correspEstimate")
+                                        ? ""
+                                        : currentValue;
+                                    form.setValue(
+                                      "correspEstimate",
+                                      selectedValue,
+                                      {
+                                        shouldValidate: true,
+                                      }
+                                    );
+                                    setOpen(false);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      estimate.value === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {estimate.label}
+                                </CommandItem>
+                              ))}
+                            </CommandList>
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </FormItem>
                 )}
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="Price per month"
-                    {...field}
+              />
+            </div>
+            <div className="mt-2">
+              <FormField
+                control={form.control}
+                name="customerFirstname"
+                render={({ field }) => (
+                  <FormItem>
+                    {form.formState.errors.customerFirstname ? (
+                      <FormMessage />
+                    ) : (
+                      <FormLabel className="mb-1 mt-0.5">
+                        Customer first name
+                      </FormLabel>
+                    )}
+                    <FormControl>
+                      <Input placeholder="First name" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="mt-2">
+              <FormField
+                control={form.control}
+                name="customerLastname"
+                render={({ field }) => (
+                  <FormItem>
+                    {form.formState.errors.customerLastname ? (
+                      <FormMessage />
+                    ) : (
+                      <FormLabel className="mb-1 mt-0.5">
+                        Customer last name
+                      </FormLabel>
+                    )}
+                    <FormControl>
+                      <Input placeholder="Last name" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-end mt-2 gap-2">
+              <FormField
+                control={form.control}
+                name="storedTire"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="w-full">
+                      <div className="flex items-center justify-between">
+                        <FormLabel className="mb-1">Tires</FormLabel>
+                      </div>
+                      <Select onValueChange={field.onChange}>
+                        <FormControl>
+                          <SelectTrigger className="focus:ring-gray-300 focus:ring-offset-0">
+                            <SelectValue placeholder="Select tire" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {tires.map((tire, index) => (
+                            <SelectItem key={index} value={tire._id}>
+                              {tire.brand} {tire.width}/{tire.height} - R
+                              {tire.diameter}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => handleAddTire(form.getValues("storedTire"))}
+                className={`h-10 px-10 mb-2 ${
+                  storedTires.length >= 4 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={storedTires.length >= 4}
+              >
+                Add
+              </Button>
+            </div>
+            <div className="mt-2">
+              <h2>Selected Tires:</h2>
+              {storedTires.length === 0 ? (
+                <div className="border border-input p-2 rounded-md">
+                  <p className="italic">
+                    No tires added to the entry yet. Add tires from the select
+                    above.
+                  </p>
+                </div>
+              ) : (
+                <div className="border border-input p-2 rounded-md">
+                  {storedTires.map((tireId, index) => {
+                    const storedTire = tires.find(
+                      (tire) => tire._id === tireId
+                    );
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-center mb-2 [&:not(:first-child)]:border-t pt-2"
+                      >
+                        <span>{index + 1}.&nbsp;</span>
+                        <p className="mr-4 font-semibold">
+                          {storedTire.brand} - {storedTire.width}/
+                          {storedTire.height} R{storedTire.diameter}
+                        </p>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => handleDuplicateTire(index)}
+                          className={` h-8 text-blue-400 ${
+                            storedTires.length >= 4
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={storedTires.length >= 4}
+                        >
+                          Duplicate
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => handleRemoveTire(index)}
+                          className="ml-4 text-red-400 h-8 hover:text-red-400"
+                        >
+                          Remove
+                          <FaTimes className="ml-2 mt-0.5" />
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div className="mt-2">
+              <FormField
+                control={form.control}
+                name="periodInMonths"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <div className="flex items-center justify-between">
+                        {form.formState.errors.periodInMonths ? (
+                          <FormMessage />
+                        ) : (
+                          <FormLabel className="mb-1 mt-0.5">Period</FormLabel>
+                        )}
+                      </div>
+                      <Select onValueChange={field.onChange}>
+                        <FormControl>
+                          <SelectTrigger className="focus:ring-gray-300 focus:ring-offset-0">
+                            <SelectValue placeholder="Select period" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="3">3 months</SelectItem>
+                          <SelectItem value="6">6 months</SelectItem>
+                          <SelectItem value="12">12 months</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  );
+                }}
+              />
+            </div>
+            <div className="mt-2 flex items-center">
+              <Controller
+                name="rims"
+                control={form.control}
+                render={({ field }) => (
+                  <Checkbox
+                    id="rims"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
                   />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="mt-2 text-right">
-          <SecondaryButton
-            role="link"
-            href="/entries"
-            label="Cancel"
-            className="mr-2"
-          />
-          <PrimaryButton role="button" label="Create entry" type="submit" />
-        </div>
+                )}
+              />
+              <label className="ml-2" htmlFor="rims">
+                Customer leaves rims
+              </label>
+            </div>
+            <div className="mt-2">
+              <FormField
+                control={form.control}
+                name="pricePerMonth"
+                render={({ field }) => (
+                  <FormItem>
+                    {form.formState.errors.pricePerMonth ? (
+                      <FormMessage />
+                    ) : (
+                      <FormLabel className="mb-1 mt-0.5">
+                        Price per month
+                      </FormLabel>
+                    )}
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Price per month"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="mt-2 text-right">
+              <SecondaryButton
+                role="link"
+                href="/entries"
+                label="Cancel"
+                className="mr-2"
+              />
+              <PrimaryButton role="button" label="Create entry" type="submit" />
+            </div>
+          </CardContent>
+        </Card>
       </form>
     </Form>
   );

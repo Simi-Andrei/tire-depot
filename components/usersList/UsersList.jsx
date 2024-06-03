@@ -33,31 +33,35 @@ const UsersList = ({ users, page, limit }) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="p-1 h-8 text-center">No.</TableHead>
-                <TableHead className="p-1 h-8">ID</TableHead>
-                <TableHead className="p-1 h-8">NAME</TableHead>
-                <TableHead className="p-1 h-8">EMAIL</TableHead>
-                <TableHead className="p-1 h-8 text-center">ADMIN</TableHead>
-                <TableHead className="p-1 h-8 text-center">ACTIONS</TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[5%] border-r">
+                  No.
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[30%]">NAME</TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[35%]">EMAIL</TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[10%]">
+                  ADMIN
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[10%]">
+                  ACTIONS
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {parsedUsers.map((user, index) => (
                 <TableRow key={user._id}>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center border-r">
                     {(page - 1) * limit + index + 1}.
                   </TableCell>
-                  <TableCell className="p-1">{user._id}</TableCell>
-                  <TableCell className="p-1">{user.name}</TableCell>
-                  <TableCell className="p-1">{user.email}</TableCell>
-                  <TableCell className="p-1">
+                  <TableCell className="px-1 py-0.5">{user.name}</TableCell>
+                  <TableCell className="px-1 py-0.5">{user.email}</TableCell>
+                  <TableCell className="px-1 py-0.5">
                     {user.isAdmin ? (
                       <FaCheck className="mx-auto text-green-500" />
                     ) : (
                       <FaTimes className="mx-auto text-red-500" />
                     )}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     <Link
                       className="inline-block align-bottom py-1.5 px-3 rounded text-white hover:bg-slate-200 duration-300"
                       href={`/users/${user._id}`}

@@ -32,57 +32,67 @@ const EstimatesList = ({ estimates, page, limit }) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="p-1 h-8 text-center">No.</TableHead>
-                <TableHead className="p-1 h-8">ID</TableHead>
-                <TableHead className="p-1 h-8">FIRST NAME</TableHead>
-                <TableHead className="p-1 h-8">LAST NAME</TableHead>
-                <TableHead className="p-1 h-8 text-center">TIRES NO.</TableHead>
-                <TableHead className="p-1 h-8 text-center">RIMS</TableHead>
-                <TableHead className="p-1 h-8 text-center">
-                  PERIOD (MONTHS)
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[5%] border-r">
+                  No.
                 </TableHead>
-                <TableHead className="p-1 h-8 text-center">
+                <TableHead className="px-1 py-0.5 h-8 w-[15%]">
+                  FIRST NAME
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[15%]">
+                  LAST NAME
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[10%]">
+                  TIRES NO.
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[10%]">
+                  RIMS
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[10%]">
+                  MONTHS
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[15%]">
                   PRICE PER MONTH ($)
                 </TableHead>
-                <TableHead className="p-1 h-8 text-center">
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[10%]">
                   TOTAL PRICE ($)
                 </TableHead>
-                <TableHead className="p-1 h-8 text-center">ACTIONS</TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[10%]">
+                  ACTIONS
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {parsedEstimates.map((estimate, index) => (
                 <TableRow key={estimate._id}>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center border-r">
                     {(page - 1) * limit + index + 1}.
                   </TableCell>
-                  <TableCell className="p-1">{estimate._id}</TableCell>
-                  <TableCell className="p-1">
+                  <TableCell className="px-1 py-0.5">
                     {estimate.customerFirstname}
                   </TableCell>
-                  <TableCell className="p-1">
+                  <TableCell className="px-1 py-0.5">
                     {estimate.customerLastname}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {estimate.tires.length}
                   </TableCell>
-                  <TableCell className="p-1">
+                  <TableCell className="px-1 py-0.5">
                     {estimate.rims ? (
                       <FaCheck className="text-green-500 mx-auto" />
                     ) : (
                       <FaTimes className="text-red-500 mx-auto" />
                     )}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {estimate.periodInMonths}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {estimate.pricePerMonth}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {estimate.price}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     <Link
                       className="inline-block align-bottom py-1.5 px-3 rounded text-white hover:bg-slate-200 duration-300"
                       href={`/estimates/${estimate._id}`}

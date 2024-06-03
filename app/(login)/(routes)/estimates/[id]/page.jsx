@@ -94,6 +94,10 @@ const PrintEstimatePage = () => {
               {estimate.rims === true ? "Yes" : "No"}
             </p>
             <p>
+              <span className="font-normal">Price per month:</span> $
+              {estimate.pricePerMonth}
+            </p>
+            <p>
               <span className="font-normal">Tires:</span>
             </p>
             <Table>
@@ -112,9 +116,6 @@ const PrintEstimatePage = () => {
                   </TableHead>
                   <TableHead className="p-1 h-10 border text-center">
                     DIAMETER
-                  </TableHead>
-                  <TableHead className="p-1 h-10 border w-44 text-center">
-                    PRICE PER MONTH ($)
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -135,16 +136,16 @@ const PrintEstimatePage = () => {
                     <TableCell className="p-1 border text-center">
                       R{tire.diameter}
                     </TableCell>
-                    <TableCell className="p-1 border text-center">
-                      {estimate.pricePerMonth}
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-            <div className="border-t mt-4 py-2 px-10 flex items-center justify-between">
+            <div className="border-t mt-4 py-2 flex items-center justify-between">
               <p className="text-xl">
-                Total <span className="text-sm">(for 6 months):</span>
+                Total{" "}
+                <span className="text-sm">
+                  (for {estimate.periodInMonths} months):
+                </span>
               </p>
               <p className="text-xl">${estimate.price}</p>
             </div>

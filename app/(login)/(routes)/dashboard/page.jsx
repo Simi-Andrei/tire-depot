@@ -1,6 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const DashboardPage = () => {
+// function wait(milliseconds) {
+//   return new Promise((resolve) => setTimeout(resolve, milliseconds));
+// }
+
+const DashboardPage = async () => {
+  // await wait(100000);
+
   return (
     <div className="h-full flex flex-col gap-2">
       <div className="h-1/2 flex gap-2">

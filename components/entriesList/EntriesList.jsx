@@ -32,45 +32,51 @@ const EntriesList = ({ entries, page, limit }) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="p-1 h-8 text-center">No.</TableHead>
-                <TableHead className="p-1 h-8">ID</TableHead>
-                <TableHead className="p-1 h-8">CUSTOMER</TableHead>
-                <TableHead className="p-1 h-8 text-center">
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[5%] border-r">
+                  No.
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[20%]">
+                  CUSTOMER
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[15%]">
                   STORED TIRES NO.
                 </TableHead>
-                <TableHead className="p-1 h-8 text-center">MONTHS</TableHead>
-                <TableHead className="p-1 h-8 text-center">
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[15%]">
+                  MONTHS
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[15%]">
                   PRICE PER MONTH ($)
                 </TableHead>
-                <TableHead className="p-1 h-8 text-center">
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[15%]">
                   TOTAL PRICE ($)
                 </TableHead>
-                <TableHead className="p-1 h-8 text-center">ACTIONS</TableHead>
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[15%]">
+                  ACTIONS
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {parsedEntries.map((entry, index) => (
                 <TableRow key={entry._id}>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center border-r">
                     {(page - 1) * limit + index + 1}.
                   </TableCell>
-                  <TableCell className="p-1">{entry._id}</TableCell>
-                  <TableCell className="p-1">
+                  <TableCell className="px-1 py-0.5">
                     {entry.customerFirstname} {entry.customerLastname}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {entry.storedTires.length}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {entry.periodInMonths}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {entry.pricePerMonth}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {entry.price}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     <Link
                       className="inline-block align-bottom py-1.5 px-3 rounded text-white hover:bg-slate-200 duration-300"
                       href={`/entries/${entry._id}`}

@@ -52,7 +52,6 @@ const EntryPage = () => {
           </p>
         )}
       </div>
-
       <Card className="pt-6">
         <CardContent>
           <CardDescription className="mb-2">

@@ -3,14 +3,8 @@ import PrimaryButton from "@/components/primaryButton/PrimaryButton";
 import PageTitle from "@/components/pageTitle/PageTitle";
 import connectDB from "@/lib/database";
 import Tire from "@/models/tire";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import PaginationComponent from "@/components/paginationComponent/PaginationComponent";
+import DataTableDemo from "../datatable/page";
 
 const getTires = async (limit, page) => {
   try {
@@ -33,7 +27,7 @@ const TiresPage = async ({ searchParams }) => {
 
   page = !page || page < 1 ? 1 : page;
 
-  const limit = 16;
+  const limit = 18;
 
   const { tires, tiresCount } = await getTires(limit, page);
 
@@ -58,31 +52,15 @@ const TiresPage = async ({ searchParams }) => {
         limit={limit}
         totalPages={totalPages}
       />
-      <div className="p-2 mt-auto text-center">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                className={page == 1 ? "pointer-events-none opacity-50" : ""}
-                href={`?page=${prevPage}`}
-              />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink className="font-semibold" href="#">
-                {page}/{totalPages}
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext
-                className={
-                  page === totalPages ? "pointer-events-none opacity-50" : ""
-                }
-                href={`?page=${nextPage}`}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      <div className="mt-auto text-center">
+        <PaginationComponent
+          page={page}
+          prevPage={prevPage}
+          nextPage={nextPage}
+          totalPages={totalPages}
+        />
       </div>
+      <DataTableDemo tires={JSON.stringify(tires)} />
     </div>
   );
 };

@@ -32,33 +32,41 @@ const TiresList = ({ tires, page, limit }) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="p-1 h-8 text-center">No.</TableHead>
-                <TableHead className="p-1 h-8">ID</TableHead>
-                <TableHead className="p-1 h-8">BRAND</TableHead>
-                <TableHead className="p-1 h-8 text-center">WIDTH</TableHead>
-                <TableHead className="p-1 h-8 text-center">HEIGHT</TableHead>
-                <TableHead className="p-1 h-8 text-center">DIAMETER</TableHead>
-                <TableHead className="p-1 h-8 text-center">ACTIONS</TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[5%] text-center border-r">
+                  No.
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[30%]">BRAND</TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[15%] text-center">
+                  WIDTH
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[15%] text-center">
+                  HEIGHT
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[15%] text-center">
+                  DIAMETER
+                </TableHead>
+                <TableHead className="px-1 py-0.5 h-8 w-[30%] text-center">
+                  ACTIONS
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {parsedTires.map((tire, index) => (
                 <TableRow key={tire._id}>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center border-r">
                     {(page - 1) * limit + index + 1}.
                   </TableCell>
-                  <TableCell className="p-1">{tire._id}</TableCell>
-                  <TableCell className="p-1">{tire.brand}</TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5">{tire.brand}</TableCell>
+                  <TableCell className="px-1 py-0.5 text-center">
                     {tire.width}&apos;&apos;
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {tire.height}&apos;&apos;
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     R{tire.diameter}
                   </TableCell>
-                  <TableCell className="p-1 text-center">
+                  <TableCell className="px-1 py-0.5 text-center">
                     <Link
                       className="inline-block align-bottom py-1.5 px-3 rounded text-white hover:bg-slate-200 duration-300"
                       href={`/tires/${tire._id}`}
