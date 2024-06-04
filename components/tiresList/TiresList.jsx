@@ -21,18 +21,20 @@ import DeleteButton from "@/components/deleteButton/DeleteButton";
 import { FaTrashAlt } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
 import { Card, CardContent } from "@/components/ui/card";
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
 
 const TiresList = ({ tires, page, limit }) => {
-  const parsedTires = JSON.parse(tires);
+  const data = JSON.parse(tires);
 
   return (
     <div className="my-1">
-      <Card className="pt-6">
+      {/* <Card className="pt-6">
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="px-1 py-0.5 h-8 w-[5%] text-center border-r">
+                <TableHead className="px-1 py-0.5 h-8 w-[5%] text-center">
                   No.
                 </TableHead>
                 <TableHead className="px-1 py-0.5 h-8 w-[30%]">BRAND</TableHead>
@@ -53,7 +55,7 @@ const TiresList = ({ tires, page, limit }) => {
             <TableBody>
               {parsedTires.map((tire, index) => (
                 <TableRow key={tire._id}>
-                  <TableCell className="px-1 py-0.5 text-center border-r">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {(page - 1) * limit + index + 1}.
                   </TableCell>
                   <TableCell className="px-1 py-0.5">{tire.brand}</TableCell>
@@ -102,6 +104,11 @@ const TiresList = ({ tires, page, limit }) => {
               ))}
             </TableBody>
           </Table>
+        </CardContent>
+      </Card> */}
+      <Card className="pt-6">
+        <CardContent>
+          <DataTable data={data} columns={columns} />
         </CardContent>
       </Card>
     </div>

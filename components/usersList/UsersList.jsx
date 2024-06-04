@@ -33,7 +33,7 @@ const UsersList = ({ users, page, limit }) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="px-1 py-0.5 h-8 text-center w-[5%] border-r">
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[5%]">
                   No.
                 </TableHead>
                 <TableHead className="px-1 py-0.5 h-8 w-[30%]">NAME</TableHead>
@@ -49,7 +49,7 @@ const UsersList = ({ users, page, limit }) => {
             <TableBody>
               {parsedUsers.map((user, index) => (
                 <TableRow key={user._id}>
-                  <TableCell className="px-1 py-0.5 text-center border-r">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {(page - 1) * limit + index + 1}.
                   </TableCell>
                   <TableCell className="px-1 py-0.5">{user.name}</TableCell>

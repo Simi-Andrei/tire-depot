@@ -4,7 +4,6 @@ import PageTitle from "@/components/pageTitle/PageTitle";
 import connectDB from "@/lib/database";
 import Tire from "@/models/tire";
 import PaginationComponent from "@/components/paginationComponent/PaginationComponent";
-import DataTableDemo from "../datatable/page";
 
 const getTires = async (limit, page) => {
   try {
@@ -52,15 +51,14 @@ const TiresPage = async ({ searchParams }) => {
         limit={limit}
         totalPages={totalPages}
       />
-      <div className="mt-auto text-center">
+      {/* <div className="mt-auto text-center">
         <PaginationComponent
           page={page}
           prevPage={prevPage}
           nextPage={nextPage}
           totalPages={totalPages}
         />
-      </div>
-      <DataTableDemo tires={JSON.stringify(tires)} />
+      </div> */}
     </div>
   );
 };

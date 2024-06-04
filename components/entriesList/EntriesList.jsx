@@ -32,7 +32,7 @@ const EntriesList = ({ entries, page, limit }) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="px-1 py-0.5 h-8 text-center w-[5%] border-r">
+                <TableHead className="px-1 py-0.5 h-8 text-center w-[5%]">
                   No.
                 </TableHead>
                 <TableHead className="px-1 py-0.5 h-8 w-[20%]">
@@ -58,7 +58,7 @@ const EntriesList = ({ entries, page, limit }) => {
             <TableBody>
               {parsedEntries.map((entry, index) => (
                 <TableRow key={entry._id}>
-                  <TableCell className="px-1 py-0.5 text-center border-r">
+                  <TableCell className="px-1 py-0.5 text-center">
                     {(page - 1) * limit + index + 1}.
                   </TableCell>
                   <TableCell className="px-1 py-0.5">
