@@ -1,3 +1,6 @@
+import DashboardEntriesCard from "@/components/dashboardEntriesCard/DashboardEntriesCard";
+import DashboardEstimatesCard from "@/components/dashboardEstimatesCard/DashboardEstimatesCard";
+import DashboardTiresCard from "@/components/dashboardTiresCard/DashboardTiresCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // function wait(milliseconds) {
@@ -11,29 +14,14 @@ const DashboardPage = async () => {
     <div className="h-full flex flex-col gap-2">
       <div className="h-1/2 flex gap-2">
         <div className="w-1/2">
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle>Tires</CardTitle>
-            </CardHeader>
-            <CardContent></CardContent>
-          </Card>
+          <DashboardTiresCard />
         </div>
         <div className="w-1/2">
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle>Estimates</CardTitle>
-            </CardHeader>
-            <CardContent></CardContent>
-          </Card>
+          <DashboardEstimatesCard />
         </div>
       </div>
       <div className="h-1/2">
-        <Card className="h-full">
-          <CardHeader>
-            <CardTitle>Entries</CardTitle>
-          </CardHeader>
-          <CardContent></CardContent>
-        </Card>
+        <DashboardEntriesCard />
       </div>
     </div>
   );

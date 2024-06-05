@@ -39,7 +39,7 @@ const Header = () => {
 
     getNotifications();
 
-    const interval = setInterval(getNotifications, 600000);
+    const interval = setInterval(getNotifications, 10000);
 
     return () => clearInterval(interval);
   }, []);
@@ -212,26 +212,36 @@ const Header = () => {
                 className="min-w-80 translate-y-2 px-2"
               >
                 <p className="border-b border-accent mb-1">Notifications</p>
-                {!loadingNotifications &&
-                  notifications.map((notification) => (
-                    <DropdownMenuItem
-                      key={notification._id}
-                      className={`justify-end py-4 ${
-                        notification.read
-                          ? "focus:bg-white focus:brightness-[0.98] duration-100"
-                          : "bg-orange-50 focus:bg-orange-50 focus:brightness-[0.98] duration-100"
-                      }`}
-                      asChild
-                    >
-                      <Link
-                        href={`/entries/${notification.correspEntry}`}
-                        onClick={() => markNotifAsReadHandler(notification._id)}
-                      >
-                        <LuClock4 className="text-lg mr-2" />
-                        {notification.message}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
+                {notifications.length === 0 ? (
+                  <p className="text-sm p-2 text-center">
+                    No notifications found.
+                  </p>
+                ) : (
+                  <>
+                    {!loadingNotifications &&
+                      notifications.map((notification) => (
+                        <DropdownMenuItem
+                          key={notification._id}
+                          className={`justify-end py-4 ${
+                            notification.read
+                              ? "focus:bg-white focus:brightness-[0.98] duration-100"
+                              : "bg-orange-50 focus:bg-orange-50 focus:brightness-[0.98] duration-100"
+                          }`}
+                          asChild
+                        >
+                          <Link
+                            href={`/entries/${notification.correspEntry}`}
+                            onClick={() =>
+                              markNotifAsReadHandler(notification._id)
+                            }
+                          >
+                            <LuClock4 className="text-lg mr-2" />
+                            {notification.message}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

@@ -1,5 +1,6 @@
 import connectDB from "@/lib/database";
 import Entry from "@/models/entry";
+import Notification from "@/models/notification";
 import Tire from "@/models/tire";
 import { NextResponse } from "next/server";
 
@@ -31,6 +32,8 @@ export const DELETE = async (req, { params }) => {
     const entry = await Entry.findById(id);
 
     await entry.deleteOne();
+
+    await Notification.deleteMany({ correspEntry: id });
 
     return NextResponse.json(
       { message: "Entry deleted successfully!" },
