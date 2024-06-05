@@ -21,7 +21,7 @@ export function DataTableViewOptions({ table }) {
         <Button
           variant="outline"
           size="sm"
-          className="ml-auto hidden h-8 lg:flex"
+          className="ml-auto hidden h-8 lg:flex rounded-sm"
         >
           <MixerHorizontalIcon className="mr-2 h-4 w-4" />
           View
@@ -37,6 +37,12 @@ export function DataTableViewOptions({ table }) {
               typeof column.accessorFn !== "undefined" && column.getCanHide()
           )
           .map((column) => {
+            // Check if header is a function or a string
+            const header =
+              typeof column.columnDef.header === "function"
+                ? column.columnDef.header({ column }).props.children[0]
+                : column.columnDef.header;
+
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
@@ -44,7 +50,7 @@ export function DataTableViewOptions({ table }) {
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                {header}
               </DropdownMenuCheckboxItem>
             );
           })}

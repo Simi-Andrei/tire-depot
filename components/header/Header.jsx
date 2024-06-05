@@ -39,7 +39,7 @@ const Header = () => {
 
     getNotifications();
 
-    const interval = setInterval(getNotifications, 60000);
+    const interval = setInterval(getNotifications, 600000);
 
     return () => clearInterval(interval);
   }, []);

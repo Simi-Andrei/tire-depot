@@ -3,15 +3,12 @@ import PrimaryButton from "@/components/primaryButton/PrimaryButton";
 import PageTitle from "@/components/pageTitle/PageTitle";
 import connectDB from "@/lib/database";
 import Tire from "@/models/tire";
-import PaginationComponent from "@/components/paginationComponent/PaginationComponent";
 
-const getTires = async (limit, page) => {
+const getTires = async () => {
   try {
     await connectDB();
 
-    const tires = await Tire.find({})
-      .skip((page - 1) * limit)
-      .limit(limit);
+    const tires = await Tire.find({});
 
     const tiresCount = await Tire.countDocuments();
 
@@ -21,44 +18,16 @@ const getTires = async (limit, page) => {
   }
 };
 
-const TiresPage = async ({ searchParams }) => {
-  let page = parseInt(searchParams.page, 10);
-
-  page = !page || page < 1 ? 1 : page;
-
-  const limit = 18;
-
-  const { tires, tiresCount } = await getTires(limit, page);
-
-  const totalPages = Math.ceil(tiresCount / limit);
-
-  const prevPage = page - 1 > 0 ? page - 1 : 1;
-  const nextPage = page + 1;
+const TiresPage = async () => {
+  const { tires, tiresCount } = await getTires();
 
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-end justify-between pb-1 my-1">
         <PageTitle title={`Tires (${tiresCount} items)`} />
-        <PrimaryButton
-          role="link"
-          label="Add tire"
-          href={{ pathname: "/tires/add", query: { lastPage: totalPages } }}
-        />
+        <PrimaryButton role="link" label="Add tire" href="/tires/add" />
       </div>
-      <TiresList
-        tires={JSON.stringify(tires)}
-        page={page}
-        limit={limit}
-        totalPages={totalPages}
-      />
-      {/* <div className="mt-auto text-center">
-        <PaginationComponent
-          page={page}
-          prevPage={prevPage}
-          nextPage={nextPage}
-          totalPages={totalPages}
-        />
-      </div> */}
+      <TiresList tires={JSON.stringify(tires)} />
     </div>
   );
 };

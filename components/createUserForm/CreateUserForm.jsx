@@ -31,7 +31,7 @@ const formSchema = z.object({
   isAdmin: z.boolean().optional(),
 });
 
-const CreateUserForm = ({ lastPage }) => {
+const CreateUserForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
@@ -56,7 +56,7 @@ const CreateUserForm = ({ lastPage }) => {
 
       if (res.ok) {
         revalidate("/users");
-        router.push(`/users?page=${lastPage}`);
+        router.push("/users");
       }
     } catch (error) {
       console.log(error);

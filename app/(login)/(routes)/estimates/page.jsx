@@ -3,24 +3,14 @@ import PrimaryButton from "@/components/primaryButton/PrimaryButton";
 import PageTitle from "@/components/pageTitle/PageTitle";
 import connectDB from "@/lib/database";
 import Estimate from "@/models/estimate";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { RiErrorWarningLine } from "react-icons/ri";
-import PaginationComponent from "@/components/paginationComponent/PaginationComponent";
+import { Card, CardContent } from "@/components/ui/card";
 
-const getEstimates = async (limit, page) => {
+const getEstimates = async () => {
   try {
     await connectDB();
 
-    const estimates = await Estimate.find({})
-      .skip((page - 1) * limit)
-      .limit(limit);
+    const estimates = await Estimate.find({});
 
     const estimatesCount = await Estimate.countDocuments();
 
@@ -30,19 +20,8 @@ const getEstimates = async (limit, page) => {
   }
 };
 
-const EstimatesPage = async ({ searchParams }) => {
-  let page = parseInt(searchParams.page, 10);
-
-  page = !page || page < 1 ? 1 : page;
-
-  const limit = 18;
-
-  const { estimates, estimatesCount } = await getEstimates(limit, page);
-
-  const totalPages = Math.ceil(estimatesCount / limit);
-
-  const prevPage = page - 1 > 0 ? page - 1 : 1;
-  const nextPage = page + 1;
+const EstimatesPage = async () => {
+  const { estimates, estimatesCount } = await getEstimates();
 
   return (
     <div className="h-full flex flex-col">
@@ -50,29 +29,7 @@ const EstimatesPage = async ({ searchParams }) => {
         <PageTitle title={`Estimates (${estimatesCount})`} />
         <PrimaryButton label="Create estimate" href="/estimates/create" />
       </div>
-      {estimates.length === 0 ? (
-        <p className="text-center p-2">
-          <RiErrorWarningLine className="mx-auto text-2xl text-blue-500" />
-          There are no estimates at this moment. Please create one by pressing
-          the button above.
-        </p>
-      ) : (
-        <>
-          <EstimatesList
-            estimates={JSON.stringify(estimates)}
-            page={page}
-            limit={limit}
-          />
-          <div className="p-2 mt-auto text-center">
-            <PaginationComponent
-              page={page}
-              prevPage={prevPage}
-              nextPage={nextPage}
-              totalPages={totalPages}
-            />
-          </div>
-        </>
-      )}
+      <EstimatesList estimates={JSON.stringify(estimates)} />
     </div>
   );
 };

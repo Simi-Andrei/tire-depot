@@ -38,7 +38,7 @@ const formSchema = z.object({
   diameter: z.string().nonempty("Please select diameter"),
 });
 
-const AddTireForm = ({ lastPage }) => {
+const AddTireForm = () => {
   const router = useRouter();
 
   const form = useForm({
@@ -61,7 +61,7 @@ const AddTireForm = ({ lastPage }) => {
 
       if (res.ok) {
         revalidate("/tires");
-        router.push(`/tires?page=${lastPage}`);
+        router.push("/tires");
       }
     } catch (error) {
       console.log(error);
