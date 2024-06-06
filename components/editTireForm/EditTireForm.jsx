@@ -20,6 +20,7 @@ import {
   CardContent,
   CardHeader,
   CardDescription,
+  CardTitle,
 } from "@/components/ui/card";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
@@ -73,20 +74,21 @@ const EditTireForm = ({ tire }) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <Card className="w-full md:w-1/2 md:max-w-md pt-6">
-          {form.formState.isDirty &&
-            brand !== "" &&
-            width !== "" &&
-            height !== "" &&
-            diameter !== "" && (
-              <CardHeader className="pt-0">
+          <CardHeader className="pt-0">
+            <CardTitle className="text-lg">Tire no {id}</CardTitle>
+            {form.formState.isDirty &&
+              brand !== "" &&
+              width !== "" &&
+              height !== "" &&
+              diameter !== "" && (
                 <CardDescription>
                   <span className="flex items-center">
                     <AiOutlineInfoCircle className="mr-1 text-lg" />
                     Unsaved changes
                   </span>
                 </CardDescription>
-              </CardHeader>
-            )}
+              )}
+          </CardHeader>
           <CardContent>
             <FormField
               control={form.control}

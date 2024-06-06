@@ -70,24 +70,19 @@ const AddTireForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="w-full max-w-lg mx-auto mt-10"
-      >
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <Card>
           <CardHeader>
-            <CardTitle className="text-center">Add tire</CardTitle>
+            <CardTitle className="text-lg">Add tire</CardTitle>
           </CardHeader>
-          <CardContent className="">
+          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <FormField
               control={form.control}
               name="brand"
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <div className="flex items-center justify-between">
-                      <FormLabel className="mb-1">Brand</FormLabel>
-                    </div>
+                    <FormLabel className="mb-1">Brand</FormLabel>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="focus:ring-gray-300 focus:ring-offset-0">
@@ -113,9 +108,7 @@ const AddTireForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <div className="flex items-center justify-between">
-                      <FormLabel className="mb-1">Width</FormLabel>
-                    </div>
+                    <FormLabel className="mb-1">Width</FormLabel>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="focus:ring-gray-300 focus:ring-offset-0">
@@ -141,9 +134,7 @@ const AddTireForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <div className="flex items-center justify-between">
-                      <FormLabel className="mb-1">Height</FormLabel>
-                    </div>
+                    <FormLabel className="mb-1">Height</FormLabel>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="focus:ring-gray-300 focus:ring-offset-0">
@@ -169,9 +160,7 @@ const AddTireForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <div className="flex items-center justify-between">
-                      <FormLabel className="mb-1">Diameter</FormLabel>
-                    </div>
+                    <FormLabel className="mb-1">Diameter</FormLabel>
                     <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="focus:ring-gray-300 focus:ring-offset-0">

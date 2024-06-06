@@ -4,7 +4,7 @@ import PageTitle from "@/components/pageTitle/PageTitle";
 const CreateEntryPage = () => {
   return (
     <div>
-      <PageTitle title="Create entry" className="text-center mb-6" />
+      <PageTitle title="Create entry" className="text-center" />
       <CreateEntryForm />
     </div>
   );

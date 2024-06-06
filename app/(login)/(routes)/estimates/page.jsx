@@ -3,8 +3,6 @@ import PrimaryButton from "@/components/primaryButton/PrimaryButton";
 import PageTitle from "@/components/pageTitle/PageTitle";
 import connectDB from "@/lib/database";
 import Estimate from "@/models/estimate";
-import { RiErrorWarningLine } from "react-icons/ri";
-import { Card, CardContent } from "@/components/ui/card";
 
 const getEstimates = async () => {
   try {
@@ -25,7 +23,7 @@ const EstimatesPage = async () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-end justify-between pb-1 my-1">
+      <div className="flex items-end justify-between my-1">
         <PageTitle title={`Estimates (${estimatesCount})`} />
         <PrimaryButton label="Create estimate" href="/estimates/create" />
       </div>

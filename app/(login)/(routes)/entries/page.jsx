@@ -23,13 +23,9 @@ const EntriesPage = async () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-end justify-between pb-1 my-1">
+      <div className="flex items-end justify-between my-1">
         <PageTitle title={`Entries (${entriesCount})`} />
-        <PrimaryButton
-          role="link"
-          label="Create entry"
-          href="/entries/create"
-        />
+        <PrimaryButton label="Create entry" href="/entries/create" />
       </div>
       <EntriesList entries={JSON.stringify(entries)} />
     </div>

@@ -52,7 +52,7 @@ const PrintEstimatePage = () => {
     <p>Loading...</p>
   ) : (
     <div>
-      <div className="flex items-end justify-between pb-1 my-1">
+      <div className="flex items-end justify-between my-1">
         <PageTitle title={`Estimate no ${estimate._id}`} />
         <ReactToPrint
           trigger={() => {

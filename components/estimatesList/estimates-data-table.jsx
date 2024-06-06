@@ -174,6 +174,10 @@ export const columns = [
               <Link href={`/estimates/${estimate._id}`}>View estimate</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
+              <Link href={`/entries/create/${estimate._id}`}>Create entry</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
               <Button
                 className="p-0 h-5"
                 variant="ghost"

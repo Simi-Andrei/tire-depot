@@ -22,7 +22,7 @@ const TirePage = async ({ params }) => {
 
   return (
     <div className="h-full flex flex-col">
-      <PageTitle title={`Tire no ${tire._id}`} className="my-1" />
+      {/* <PageTitle title={`Tire no ${tire._id}`} className="my-1" /> */}
       <div className="my-1">
         <EditTireForm tire={JSON.stringify(tire)} />
       </div>

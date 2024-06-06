@@ -169,6 +169,7 @@ export const columns = [
             <DropdownMenuItem>
               <Link href={`/tires/${tire._id}`}>Edit tire</Link>
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Button
                 className="p-0 h-5"

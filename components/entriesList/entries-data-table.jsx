@@ -198,6 +198,7 @@ export const columns = [
             <DropdownMenuItem>
               <Link href={`/entries/${entry._id}`}>View entry</Link>
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Button
                 className="p-0 h-5"

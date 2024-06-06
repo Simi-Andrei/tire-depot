@@ -154,7 +154,7 @@ const CreateEntryForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="my-1">
         <Card className="pt-6">
           <CardContent>
             <div className="mt-2">
@@ -171,7 +171,7 @@ const CreateEntryForm = () => {
                       </FormLabel>
                     )}
                     <Popover open={open} onOpenChange={setOpen}>
-                      <PopoverTrigger asChild>
+                      <PopoverTrigger asChild className="h-10">
                         <FormControl>
                           <Button
                             variant="outline"

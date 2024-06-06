@@ -23,7 +23,7 @@ const UsersPage = async () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-end justify-between pb-1 my-1">
+      <div className="flex items-end justify-between my-1">
         <PageTitle title={`Users (${usersCount})`} />
         <PrimaryButton role="link" label="Create user" href="/users/create" />
       </div>
