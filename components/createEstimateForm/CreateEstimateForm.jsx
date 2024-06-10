@@ -25,7 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import SecondaryButton from "@/components/secondaryButton/SecondaryButton";
-import { FaTimes } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 import {
   Card,
   CardContent,
@@ -66,18 +66,6 @@ const CreateEstimateForm = () => {
 
   const router = useRouter();
 
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      customerFirstname: "",
-      customerLastname: "",
-      periodInMonths: 0,
-      tires: [],
-      rims: false,
-      pricePerMonth: 0,
-    },
-  });
-
   useEffect(() => {
     const getTires = async () => {
       try {
@@ -91,29 +79,33 @@ const CreateEstimateForm = () => {
     getTires();
   }, []);
 
-  const handleDeleteTire = (tireId) => {
-    const updatedSelectedTires = selectedTires.filter((id) => id !== tireId);
-    setSelectedTires(updatedSelectedTires);
-  };
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      customerFirstname: "",
+      customerLastname: "",
+      periodInMonths: 0,
+      tires: [],
+      rims: false,
+      pricePerMonth: 0,
+    },
+  });
 
   const handleSubmit = async (values) => {
-    // try {
-    //   const res = await fetch("/api/estimates", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ formData }),
-    //   });
+    try {
+      const res = await fetch("/api/estimates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ values }),
+      });
 
-    //   if (res.ok) {
-    //     revalidate("/estimates");
-    //     router.push("/estimates");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    console.log(values);
-    console.log(selectedTires);
+      if (res.ok) {
+        revalidate("/estimates");
+        router.push("/estimates");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -123,7 +115,7 @@ const CreateEstimateForm = () => {
           <CardHeader>
             <CardTitle className="text-lg">Create estimate</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <CardContent className="grid items-start grid-cols-1 md:grid-cols-2 gap-2">
             <FormField
               control={form.control}
               name="customerFirstname"
@@ -191,7 +183,7 @@ const CreateEstimateForm = () => {
                 </FormItem>
               )}
             />
-            <div>
+            <div className="col-span-2">
               <FormField
                 control={form.control}
                 name="tires"
@@ -321,7 +313,7 @@ const CreateEstimateForm = () => {
                             form.setValue("tires", updatedSelectedTires);
                           }}
                         >
-                          <FaTimes />
+                          <IoMdClose className="text-lg text-rose-500" />
                         </Button>
                       </div>
                     );
@@ -329,7 +321,7 @@ const CreateEstimateForm = () => {
                 </div>
               )}
             </div>
-            <div className="mt-2 flex items-center">
+            <div className="mt-1 flex items-center">
               <Controller
                 name="rims"
                 control={form.control}

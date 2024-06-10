@@ -21,18 +21,18 @@ export const GET = async (req, res) => {
 
 export const POST = async (req, res) => {
   try {
-    const { formData } = await req.json();
+    const { values } = await req.json();
 
     await connectDB();
 
     const newEstimate = await Estimate.create({
-      customerFirstname: formData.customerFirstname,
-      customerLastname: formData.customerLastname,
-      tires: formData.selectedTires,
-      periodInMonths: formData.periodInMonths,
-      rims: formData.rims,
-      pricePerMonth: formData.pricePerMonth,
-      price: formData.pricePerMonth * Number(formData.periodInMonths),
+      customerFirstname: values.customerFirstname,
+      customerLastname: values.customerLastname,
+      tires: values.tires,
+      periodInMonths: values.periodInMonths,
+      rims: values.rims,
+      pricePerMonth: values.pricePerMonth,
+      price: values.pricePerMonth * Number(values.periodInMonths),
     });
 
     await newEstimate.save();

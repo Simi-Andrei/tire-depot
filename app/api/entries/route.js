@@ -19,19 +19,19 @@ export const GET = async (req, res) => {
 
 export const POST = async (req, res) => {
   try {
-    const { formData } = await req.json();
+    const { values } = await req.json();
 
     connectDB();
 
     const newEntry = await Entry.create({
-      customerFirstname: formData.customerFirstname,
-      customerLastname: formData.customerLastname,
-      storedTires: formData.storedTires,
-      periodInMonths: formData.periodInMonths,
-      rims: formData.rims,
-      pricePerMonth: formData.pricePerMonth,
-      correspEstimate: formData.correspEstimate,
-      price: formData.pricePerMonth * Number(formData.periodInMonths),
+      correspEstimate: values.correspEstimate,
+      customerFirstname: values.customerFirstname,
+      customerLastname: values.customerLastname,
+      storedTires: values.tires,
+      periodInMonths: values.periodInMonths,
+      rims: values.rims,
+      pricePerMonth: values.pricePerMonth,
+      price: values.pricePerMonth * Number(values.periodInMonths),
     });
 
     await newEntry.save();
