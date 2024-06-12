@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const LoadingTires = () => {
+const Loading = () => {
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between my-1">
@@ -17,4 +17,4 @@ const LoadingTires = () => {
   );
 };
 
-export default LoadingTires;
+export default Loading;

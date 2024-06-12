@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const LoadingDashBoard = () => {
+const Loading = () => {
   return (
     <div className="h-full flex flex-col gap-2">
       <div className="h-1/2 flex gap-2">
@@ -18,4 +18,4 @@ const LoadingDashBoard = () => {
   );
 };
 
-export default LoadingDashBoard;
+export default Loading;

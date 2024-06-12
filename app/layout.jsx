@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <AuthProvider>
       <html lang="en" className={play.className}>
-        <body className="bg-slate-50">{children}</body>
+        <body>{children}</body>
       </html>
     </AuthProvider>
   );

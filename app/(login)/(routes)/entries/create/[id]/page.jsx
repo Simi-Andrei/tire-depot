@@ -1,6 +1,6 @@
 import CreateEntryFromEstimateForm from "@/components/createEntryFromEstimateForm/CreateEntryFromEstimateForm";
 
-const CreateEntryFromEstimatePage = () => {
+const CreateEntryFromEstimatePage = async () => {
   return <CreateEntryFromEstimateForm />;
 };
 

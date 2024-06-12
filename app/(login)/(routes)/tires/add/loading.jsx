@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const LoadingAddTire = () => {
+const Loading = () => {
   return (
     <div className="h-full flex flex-col">
       <Skeleton className="w-full h-10 rounded my-2" />
@@ -10,4 +10,4 @@ const LoadingAddTire = () => {
   );
 };
 
-export default LoadingAddTire;
+export default Loading;

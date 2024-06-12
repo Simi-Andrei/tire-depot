@@ -15,11 +15,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import PrimaryButton from "@/components/primaryButton/PrimaryButton";
 import SecondaryButton from "@/components/secondaryButton/SecondaryButton";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
   name: z.string().nonempty("Please enter name"),
@@ -166,7 +166,7 @@ const CreateUserForm = () => {
                 label="Cancel"
                 className="mr-2"
               />
-              <PrimaryButton type="submit" role="button" label="Create user" />
+              <Button type="submit">Create user</Button>
             </div>
           </CardContent>
         </Card>

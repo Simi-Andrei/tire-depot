@@ -34,7 +34,7 @@ import {
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import { deleteUserHandler } from "@/lib/userRoutes/userRoutes";
+import { deleteCustomerHandler } from "@/lib/customerRoutes/customerRoutes";
 
 export const columns = [
   {
@@ -72,7 +72,7 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: "firstName",
     header: ({ column }) => {
       return (
         <Button
@@ -80,7 +80,22 @@ export const columns = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          First name
+          <ArrowUpDown className="ml-2 h-4 w-4 text-cyan-600" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "lastName",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="px-0 focus-visible:ring-transparent duration-0 hover:bg-transparent"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Last name
           <ArrowUpDown className="ml-2 h-4 w-4 text-cyan-600" />
         </Button>
       );
@@ -100,39 +115,11 @@ export const columns = [
         </Button>
       );
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
-  {
-    accessorKey: "isAdmin",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="px-0 focus-visible:ring-transparent duration-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Admin
-          <ArrowUpDown className="ml-2 h-4 w-4 text-cyan-600" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const isAdmin = row.getValue("isAdmin");
-      if (isAdmin) {
-        return <p>Yes</p>;
-      }
-      return <p>No</p>;
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const user = row.original;
+      const customer = row.original;
 
       return (
         <DropdownMenu>
@@ -149,20 +136,20 @@ export const columns = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user._id)}
+              onClick={() => navigator.clipboard.writeText(customer._id)}
             >
-              Copy user ID
+              Copy customer ID
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={`/users/${user._id}`}>View user</Link>
+              <Link href={`/customers/${customer._id}`}>View customer</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Button
                 className="p-0 h-5"
                 variant="ghost"
-                onClick={() => deleteUserHandler(user._id)}
+                onClick={() => deleteCustomerHandler(customer._id)}
               >
-                Delete user
+                Delete customer
               </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -172,7 +159,7 @@ export const columns = [
   },
 ];
 
-const UsersDataTable = ({ data }) => {
+const CustomersDataTable = ({ data }) => {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -203,10 +190,10 @@ const UsersDataTable = ({ data }) => {
     <>
       <div className="flex items-center py-2">
         <Input
-          placeholder="Search name..."
-          value={table.getColumn("name")?.getFilterValue() ?? ""}
+          placeholder="Search last name..."
+          value={table.getColumn("lastName")?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("lastName")?.setFilterValue(event.target.value)
           }
           className="max-w-xs h-8 rounded-sm"
         />
@@ -273,4 +260,4 @@ const UsersDataTable = ({ data }) => {
   );
 };
 
-export default UsersDataTable;
+export default CustomersDataTable;

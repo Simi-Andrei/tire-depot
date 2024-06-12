@@ -77,7 +77,6 @@
   }
 
   header,
-  main,
   footer {
     @apply container max-w-7xl mx-auto;
   }
