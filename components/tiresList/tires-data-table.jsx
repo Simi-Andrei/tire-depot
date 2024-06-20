@@ -138,6 +138,10 @@ export const columns = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const diameterValue = `R${row.original.diameter}`;
+      return <p>{diameterValue}</p>;
+    },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },

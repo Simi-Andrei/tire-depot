@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 import {
+  parseISO,
+  addMonths,
+  format,
+  differenceInMilliseconds,
+} from "date-fns";
+import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
@@ -37,6 +43,12 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { deleteEntryHandler } from "@/lib/entryRoutes/entryRoutes";
+
+const getNumericExpiresAt = (row) => {
+  const createdAt = parseISO(row.original.createdAt);
+  const expiresAt = addMonths(createdAt, row.original.periodInMonths);
+  return differenceInMilliseconds(expiresAt, new Date(0)); // Using difference in milliseconds from Unix epoch (Jan 1, 1970)
+};
 
 export const columns = [
   {
@@ -105,6 +117,27 @@ export const columns = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
+  },
+  {
+    accessorKey: "expiresAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="px-0 focus-visible:ring-transparent duration-0 hover:bg-transparent"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Expires at
+          <ArrowUpDown className="ml-2 h-4 w-4 text-cyan-600" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const createdAt = parseISO(row.original.createdAt);
+      const expiresAt = addMonths(createdAt, row.original.periodInMonths);
+      return <p>{format(expiresAt, "yyyy-MM-dd")}</p>;
+    },
+    sortingFn: getNumericExpiresAt,
   },
   {
     accessorKey: "expired",
@@ -301,7 +334,7 @@ const EntriesDataTable = ({ data }) => {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
-                className="[&>*:nth-child(6)]:text-right [&>*:nth-child(7)]:text-right"
+                className="[&>*:nth-child(6)]:text-center [&>*:nth-child(7)]:text-right [&>*:nth-child(8)]:text-right"
                 key={headerGroup.id}
               >
                 {headerGroup.headers.map((header) => {
@@ -326,7 +359,7 @@ const EntriesDataTable = ({ data }) => {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="[&>*:nth-child(6)]:text-right [&>*:nth-child(7)]:text-right"
+                  className="[&>*:nth-child(6)]:text-center [&>*:nth-child(7)]:text-right [&>*:nth-child(8)]:text-right"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >

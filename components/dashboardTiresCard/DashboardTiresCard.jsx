@@ -24,7 +24,9 @@ const DashboardTiresCard = async () => {
       <CardHeader>
         <CardTitle>Tires</CardTitle>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>
+        <p className="font-semibold">Total number of tires: {tiresCount}</p>
+      </CardContent>
     </Card>
   );
 };

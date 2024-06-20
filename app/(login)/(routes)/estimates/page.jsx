@@ -23,7 +23,7 @@ const EstimatesPage = async () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-end justify-between my-1">
+      <div className="flex items-center justify-between mb-1">
         <PageTitle title={`Estimates (${estimatesCount})`} />
         <PrimaryButton label="Create estimate" href="/estimates/create" />
       </div>

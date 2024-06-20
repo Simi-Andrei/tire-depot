@@ -92,20 +92,21 @@ const CreateEstimateForm = () => {
   });
 
   const handleSubmit = async (values) => {
-    try {
-      const res = await fetch("/api/estimates", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ values }),
-      });
+    // try {
+    //   const res = await fetch("/api/estimates", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ values }),
+    //   });
 
-      if (res.ok) {
-        revalidate("/estimates");
-        router.push("/estimates");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    //   if (res.ok) {
+    //     revalidate("/estimates");
+    //     router.push("/estimates");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    console.log(values);
   };
 
   return (
