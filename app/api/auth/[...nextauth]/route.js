@@ -44,12 +44,14 @@ const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.isAdmin = user.isAdmin;
+        token.role = user.role;
+        token.username = user.username;
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.isAdmin = token.isAdmin;
+      session.user.role = token.role;
+      session.user.username = token.username;
       return session;
     },
   },

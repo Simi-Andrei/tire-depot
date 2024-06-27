@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import * as z from "zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { revalidate } from "@/lib/revalidate";
 import {
@@ -17,37 +17,57 @@ import {
 import { Input } from "@/components/ui/input";
 import SecondaryButton from "@/components/secondaryButton/SecondaryButton";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { TriangleAlert, LoaderCircle } from "lucide-react";
 
 const formSchema = z.object({
-  name: z.string().nonempty("Please enter name"),
+  username: z
+    .string()
+    .min(1, "Please enter username")
+    .min(3, "Username must be at least 3 characters long"),
   email: z
     .string()
-    .nonempty("Please enter email")
-    .email("Please enter a valid email address"),
-  password: z.string().nonempty("Please enter password"),
-  isAdmin: z.boolean().optional(),
+    .min(1, "Please enter email")
+    .email({ message: "Please enter a valid email address" }),
+  phoneNumber: z.string().min(1, "Please enter phone number"),
+  password: z
+    .string()
+    .min(1, "Please enter password")
+    .min(6, "Password must be at least 6 characters"),
+  role: z.string().min(1, "Please select role"),
 });
 
 const CreateUserForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [formIsSubmitting, setFormIsSubmitting] = useState(false);
 
   const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
+      phoneNumber: "",
       password: "",
-      isAdmin: false,
+      role: "",
     },
   });
 
   const handleSubmit = async (values) => {
     try {
+      setFormIsSubmitting(true);
       const res = await fetch("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -56,7 +76,11 @@ const CreateUserForm = () => {
 
       if (res.ok) {
         revalidate("/users");
-        router.push("/users");
+        router.replace("/users");
+      } else {
+        const { error } = await res.json();
+        setFormIsSubmitting(false);
+        setError(error);
       }
     } catch (error) {
       console.log(error);
@@ -77,96 +101,132 @@ const CreateUserForm = () => {
             <div className="col-span-2">
               <FormField
                 control={form.control}
-                name="name"
+                name="username"
                 render={({ field }) => (
                   <FormItem>
-                    {form.formState.errors.name ? (
-                      <FormMessage />
-                    ) : (
-                      <FormLabel className="mb-1 mt-0.5 w-96">
-                        User name
-                      </FormLabel>
-                    )}
+                    <FormLabel className="mb-1 mt-0.5 w-96">Username</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="User name" {...field} />
+                      <Input
+                        type="text"
+                        placeholder="Enter username"
+                        {...field}
+                      />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  {form.formState.errors.email ? (
-                    <FormMessage />
-                  ) : (
-                    <FormLabel className="mb-1 mt-0.5 w-96">
-                      User email
-                    </FormLabel>
-                  )}
-                  <FormControl>
-                    <Input type="email" placeholder="User email" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem className="relative">
-                  {form.formState.errors.password ? (
-                    <FormMessage />
-                  ) : (
-                    <FormLabel className="mb-1 mt-0.5 w-96">
-                      User password
-                    </FormLabel>
-                  )}
-                  <FormControl>
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="User password"
-                      {...field}
-                    />
-                  </FormControl>
-                  {form.formState.dirtyFields.password && (
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((prevState) => !prevState)}
-                      className="absolute top-1/2 right-1.5 -translate-y-[3px] p-1.5 text-gray-500"
-                    >
-                      {showPassword ? <FiEyeOff /> : <FiEye />}
-                    </button>
-                  )}
-                </FormItem>
-              )}
-            />
-            <div className="flex items-center">
-              <Controller
-                name="isAdmin"
+            <div className="col-span-2">
+              <FormField
                 control={form.control}
+                name="email"
                 render={({ field }) => (
-                  <Checkbox
-                    id="isAdmin"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <FormItem>
+                    <FormLabel className="mb-1 mt-0.5 w-96">Email</FormLabel>
+                    <FormControl>
+                      <Input type="text" placeholder="Enter email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
               />
-              <label className="ml-2" htmlFor="isAdmin">
-                Make this user Admin
-              </label>
             </div>
-            <div className="col-span-2 text-right mt-4">
-              <SecondaryButton
-                role="link"
-                href="/users"
-                label="Cancel"
-                className="mr-2"
+            <div className="col-span-2">
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="mb-1 mt-0.5 w-96">
+                      Phone number
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Enter phone number"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <Button type="submit">Create user</Button>
+            </div>
+            <div className="col-span-2">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="relative">
+                    <FormLabel className="mb-1 mt-0.5 w-96">Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="User password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                    {form.formState.dirtyFields.password && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowPassword((prevState) => !prevState)
+                        }
+                        className="absolute top-[27px] right-2 p-1.5 text-gray-400"
+                      >
+                        {showPassword ? <FiEyeOff /> : <FiEye />}
+                      </button>
+                    )}
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="col-span-2">
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="mb-1 mt-0.5 w-96">Role</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Roles</SelectLabel>
+                            <SelectItem value="user">User</SelectItem>
+                            <SelectItem value="admin">Admin</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            {error && (
+              <p className="text-center bg-red-400 text-white rounded-md py-1.5 mt-6 cursor-default">
+                <TriangleAlert className="inline size-4 align-middle mr-1 mb-1" />
+                {error}
+              </p>
+            )}
+            <div className="col-span-2 grid grid-cols-2 gap-4 mt-6">
+              <SecondaryButton role="link" href="/users" label="Cancel" />
+              <Button type="submit" disabled={formIsSubmitting}>
+                {formIsSubmitting ? (
+                  <LoaderCircle className="size-3.5 animate-spin" />
+                ) : (
+                  "Create user"
+                )}
+              </Button>
             </div>
           </CardContent>
         </Card>

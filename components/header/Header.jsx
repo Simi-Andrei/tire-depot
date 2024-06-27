@@ -110,7 +110,7 @@ const Header = () => {
               Entries
             </Link>
           </li>
-          {session?.user?.isAdmin && (
+          {session?.user?.role === "admin" && (
             <li className="my-1">
               <Link
                 className={cn(
@@ -146,11 +146,11 @@ const Header = () => {
             <>
               <DropdownMenu>
                 <DropdownMenuTrigger className="rounded-md bg-slate-900 hover:bg-slate-950 text-white flex justify-center items-center focus:outline-none hover:brightness-95 border w-full h-full duration-200">
-                  {session?.user && session.user.name}
+                  {session?.user && session.user.username}
                   <Avatar className="h-6 w-6 mx-2 border-2">
                     <AvatarImage
                       src={`${
-                        session.user.isAdmin
+                        session.user.role === "admin"
                           ? "/avatars/adminAvatar.jpg"
                           : "/avatars/userAvatar.jpg"
                       }`}
@@ -158,7 +158,7 @@ const Header = () => {
                       className="border-none"
                     />
                     <AvatarFallback className="bg-orange-600 font-normal">
-                      AD
+                      {session.user.role === "admin" ? "AD" : "US"}
                     </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>

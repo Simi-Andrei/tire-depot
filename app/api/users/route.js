@@ -22,18 +22,21 @@ export const POST = async (req, res) => {
   try {
     const { values } = await req.json();
 
-    connectDB();
+    await connectDB();
 
     const hashedPassword = bcrypt.hashSync(values.password, 10);
 
     const newUser = await User.create({
-      name: values.name,
+      username: values.username,
       email: values.email,
+      phoneNumber: values.phoneNumber,
       password: hashedPassword,
-      isAdmin: values.isAdmin,
+      role: values.role,
     });
 
     await newUser.save();
+
+    console.log(values);
 
     return NextResponse.json(
       { message: "New user successfully created!" },

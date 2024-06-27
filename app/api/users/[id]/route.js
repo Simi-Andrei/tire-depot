@@ -29,22 +29,24 @@ export const POST = async (req, { params }) => {
 
     await connectDB();
 
-    const userToEdit = await User.findById(id);
+    const editedUser = await User.findById(id);
 
-    userToEdit.name = values.name;
-    userToEdit.email = values.email;
-    userToEdit.isAdmin = values.isAdmin;
+    editedUser.username = values.username;
+    editedUser.email = values.email;
+    editedUser.phoneNumber = values.phoneNumber;
+    editedUser.role = values.role;
 
-    userToEdit.save();
+    editedUser.save();
 
     return NextResponse.json(
+      { editedUser },
       { message: "User edited successfully!" },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
       {
-        error: error.message,
+        error: "Failed to edit the user!",
       },
       { status: 500 }
     );

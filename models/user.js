@@ -2,10 +2,11 @@ import { Schema, model, models } from "mongoose";
 
 const userSchema = new Schema(
   {
-    name: { type: String, required: true },
+    username: { type: String, required: true },
     email: { type: String, required: true },
+    phoneNumber: { type: String, required: true },
     password: { type: String, required: true },
-    isAdmin: { type: Boolean, default: false },
+    role: { type: String, default: "user" },
   },
   { timestamps: true }
 );

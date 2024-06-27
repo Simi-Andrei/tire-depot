@@ -31,10 +31,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ArrowUpDown, Copy, Eye, MoreHorizontal, Trash2 } from "lucide-react";
+// import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { deleteUserHandler } from "@/lib/userRoutes/userRoutes";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export const columns = [
   {
@@ -47,32 +58,32 @@ export const columns = [
       1 +
       ".",
   },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       className="focus-visible:ring-transparent duration-0 rounded-[2px] mx-auto flex"
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && "indeterminate")
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       className="focus-visible:ring-transparent duration-0 rounded-[2px] mx-auto flex"
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        className="focus-visible:ring-transparent duration-0 rounded-[2px] mx-auto flex"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        className="focus-visible:ring-transparent duration-0 rounded-[2px] mx-auto flex"
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "name",
+    accessorKey: "username",
     header: ({ column }) => {
       return (
         <Button
@@ -80,56 +91,26 @@ export const columns = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          Userame
           <ArrowUpDown className="ml-2 h-4 w-4 text-cyan-600" />
         </Button>
       );
     },
+  },
+  {
+    accessorKey: "phoneNumber",
+    header: "Phone number",
   },
   {
     accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="px-0 focus-visible:ring-transparent duration-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4 text-cyan-600" />
-        </Button>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
+    header: "Email",
   },
   {
-    accessorKey: "isAdmin",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="px-0 focus-visible:ring-transparent duration-0 hover:bg-transparent"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Admin
-          <ArrowUpDown className="ml-2 h-4 w-4 text-cyan-600" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const isAdmin = row.getValue("isAdmin");
-      if (isAdmin) {
-        return <p>Yes</p>;
-      }
-      return <p>No</p>;
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
+    accessorKey: "role",
+    header: "Role",
   },
   {
+    header: "Actions",
     id: "actions",
     cell: ({ row }) => {
       const user = row.original;
@@ -148,23 +129,47 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Eye className="size-3 mr-2" />
+              <Link href={`/users/${user._id}`}>View user</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(user._id)}
             >
+              <Copy className="size-3 mr-2" />
               Copy user ID
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={`/users/${user._id}`}>View user</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Button
-                className="p-0 h-5"
-                variant="ghost"
-                onClick={() => deleteUserHandler(user._id)}
-              >
-                Delete user
-              </Button>
-            </DropdownMenuItem>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="py-1.5 px-2 h-8 w-full rounded-sm justify-start"
+                >
+                  <Trash2 className="size-3 mr-2" />
+                  Delete user
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    the user from the database.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="h-9 border-slate-500 hover:bg-slate-100">
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    className="h-9"
+                    onClick={() => deleteUserHandler(user._id)}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -203,10 +208,10 @@ const UsersDataTable = ({ data }) => {
     <>
       <div className="flex items-center py-2">
         <Input
-          placeholder="Search name..."
-          value={table.getColumn("name")?.getFilterValue() ?? ""}
+          placeholder="Search username..."
+          value={table.getColumn("username")?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("username")?.setFilterValue(event.target.value)
           }
           className="max-w-xs h-8 rounded-sm"
         />
@@ -244,7 +249,7 @@ const UsersDataTable = ({ data }) => {
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-                      className="py-1 [&:not(:first-child)]:px-1 text-left first:w-10 first:text-right last:text-center"
+                      className="py-1 [&:not(:first-child)]:px-1 text-left first:w-10 first:text-right"
                       key={cell.id}
                     >
                       {flexRender(
