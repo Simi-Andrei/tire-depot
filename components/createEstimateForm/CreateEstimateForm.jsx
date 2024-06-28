@@ -299,7 +299,7 @@ const CreateEstimateForm = () => {
                         <p>
                           {index + 1}. {selectedTire.brand} -{" "}
                           {selectedTire.width}
-                          '' - {selectedTire.height}'' - R
+                          &apos;&apos; - {selectedTire.height}&apos;&apos; - R
                           {selectedTire.diameter}
                         </p>
                         <Button

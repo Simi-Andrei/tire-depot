@@ -441,8 +441,8 @@ const CreateEntryForm = () => {
                             <p>
                               {index + 1}. {selectedTire.brand} -{" "}
                               {selectedTire.width}
-                              '' - {selectedTire.height}'' - R
-                              {selectedTire.diameter}
+                              &apos;&apos; - {selectedTire.height}&apos;&apos; -
+                              R{selectedTire.diameter}
                             </p>
                             <Button
                               variant="outline"
