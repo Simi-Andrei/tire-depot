@@ -1,6 +1,7 @@
 import { AuthProvider } from "./Providers";
 import "./globals.css";
 import { Play } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title: "Tire Depot",
@@ -17,7 +18,10 @@ export default function RootLayout({ children }) {
   return (
     <AuthProvider>
       <html lang="en" className={play.className}>
-        <body>{children}</body>
+        <body>
+          {children}
+          <Toaster />
+        </body>
       </html>
     </AuthProvider>
   );

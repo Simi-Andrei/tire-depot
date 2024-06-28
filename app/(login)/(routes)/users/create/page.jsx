@@ -1,6 +1,6 @@
 import CreateUserForm from "@/components/createUserForm/CreateUserForm";
 
-const CreateUserPage = ({ searchParams }) => {
+const CreateUserPage = async ({ searchParams }) => {
   const { lastPage } = searchParams;
 
   return <CreateUserForm lastPage={lastPage} />;

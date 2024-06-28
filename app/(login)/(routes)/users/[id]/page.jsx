@@ -22,7 +22,7 @@ const UserPage = async ({ params }) => {
 
   return (
     <div className="h-full flex flex-col">
-      <PageTitle title={`User no ${user._id}`} className="my-1" />
+      <PageTitle title={`User no ${user._id}`} className="mb-1" />
       <div className="my-1">
         <EditUserForm user={JSON.stringify(user)} />
       </div>

@@ -65,7 +65,7 @@ const EntryPage = () => {
           </p>
         </CardContent>
       </Card>
-      <Card className="pt-6 mt-1">
+      <Card className="pt-6 mt-2">
         <CardContent>
           <CardDescription className="mb-2">Tires</CardDescription>
           <Table>
@@ -102,7 +102,7 @@ const EntryPage = () => {
           </Table>
         </CardContent>
       </Card>
-      <Card className="pt-6 mt-1">
+      <Card className="pt-6 mt-2">
         <CardContent>
           <CardDescription className="mb-2">
             Additional information

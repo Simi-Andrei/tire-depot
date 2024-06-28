@@ -28,7 +28,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TriangleAlert, LoaderCircle } from "lucide-react";
+import {
+  TriangleAlert,
+  LoaderCircle,
+  CircleCheck,
+  CircleAlert,
+} from "lucide-react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   username: z
@@ -77,10 +83,18 @@ const CreateUserForm = () => {
       if (res.ok) {
         revalidate("/users");
         router.replace("/users");
+        toast("User created successfully!", {
+          icon: <CircleCheck className="size-4 mt-1" />,
+          className: "bottom-8 -right-6 group-[.toaster]:shadow-md",
+        });
       } else {
         const { error } = await res.json();
         setFormIsSubmitting(false);
         setError(error);
+        toast("An error occurred. Please try again.", {
+          icon: <CircleAlert className="size-4 mt-1" />,
+          className: "bottom-8 -right-6 group-[.toaster]:shadow-md",
+        });
       }
     } catch (error) {
       console.log(error);
@@ -213,7 +227,7 @@ const CreateUserForm = () => {
               />
             </div>
             {error && (
-              <p className="text-center bg-red-400 text-white rounded-md py-1.5 mt-6 cursor-default">
+              <p className="text-center border bg-red-50 border-red-200 text-red-400 rounded-md py-1.5 mt-6 cursor-default">
                 <TriangleAlert className="inline size-4 align-middle mr-1 mb-1" />
                 {error}
               </p>

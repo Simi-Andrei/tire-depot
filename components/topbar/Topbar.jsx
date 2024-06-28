@@ -70,7 +70,7 @@ const Topbar = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="min-w-80 translate-y-2 px-2"
+          className="min-w-80 translate-y-3.5 px-2"
         >
           <p className="border-b border-accent mb-1">Notifications</p>
           {notifications.length === 0 ? (

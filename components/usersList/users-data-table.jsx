@@ -31,7 +31,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, Copy, Eye, MoreHorizontal, Trash2 } from "lucide-react";
+import {
+  ArrowUpDown,
+  Copy,
+  Eye,
+  MoreHorizontal,
+  ShieldMinus,
+  ShieldPlus,
+  Trash2,
+} from "lucide-react";
 // import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import { deleteUserHandler } from "@/lib/userRoutes/userRoutes";
@@ -108,6 +116,25 @@ export const columns = [
   {
     accessorKey: "role",
     header: "Role",
+    cell: ({ row }) => {
+      const user = row.original;
+
+      if (user.role === "admin") {
+        return (
+          <div className="flex items-center">
+            <ShieldPlus className="size-4 mt-0.5 mr-0.5" />
+            Admin
+          </div>
+        );
+      } else {
+        return (
+          <div className="flex items-center">
+            <ShieldMinus className="size-4 mt-0.5 mr-0.5" />
+            User
+          </div>
+        );
+      }
+    },
   },
   {
     header: "Actions",
@@ -213,7 +240,7 @@ const UsersDataTable = ({ data }) => {
           onChange={(event) =>
             table.getColumn("username")?.setFilterValue(event.target.value)
           }
-          className="max-w-xs h-8 rounded-sm"
+          className="max-w-xs h-9 rounded-sm"
         />
         <DataTableViewOptions table={table} />
       </div>
